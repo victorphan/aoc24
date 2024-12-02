@@ -25,17 +25,18 @@ auto unsafeIndex(const std::vector<int>& level) -> std::optional<int> {
 // Checks if a list is safe, relax with possibility to remove element
 auto isDampSafe(const std::vector<int>& level) -> bool {
     auto unsafe_idx = unsafeIndex(level);
-    if (unsafe_idx.has_value()) {
-        int i = unsafe_idx.value();
-        std::vector<int> level_remove_start{level};
-        std::vector<int> level_remove_0{level};
-        std::vector<int> level_remove_1{level};
-        level_remove_start.erase(level_remove_start.begin());
-        level_remove_0.erase(level_remove_0.begin() + i);
-        level_remove_1.erase(level_remove_1.begin() + i + 1);
-        if (unsafeIndex(level_remove_0) && unsafeIndex(level_remove_1) && unsafeIndex(level_remove_start)) {
-            return false;
-        }
+    if (!unsafe_idx.has_value()) {
+        return true;
+    }
+    int i = unsafe_idx.value();
+    std::vector<int> level_remove_start{level};
+    std::vector<int> level_remove_0{level};
+    std::vector<int> level_remove_1{level};
+    level_remove_start.erase(level_remove_start.begin());
+    level_remove_0.erase(level_remove_0.begin() + i);
+    level_remove_1.erase(level_remove_1.begin() + i + 1);
+    if (unsafeIndex(level_remove_0) && unsafeIndex(level_remove_1) && unsafeIndex(level_remove_start)) {
+        return false;
     }
     return true;
 }
