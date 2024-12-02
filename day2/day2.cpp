@@ -7,71 +7,33 @@
 #include <vector>
 
 namespace {
-auto isSafe(const std::vector<int>& level) -> bool {
-    if (level.size() <= 2) {
-        return true;
-    }
-    if (level[0] == level[1]) {
-        return false;
-    }
-    bool is_inc = false;
-    if (level[0] < level[1]) {
-        is_inc = true;
-    }
-
-    for (int i = 1; i < level.size(); i++) {
-        auto diff = level[i] - level[i - 1];
-        if (is_inc) {
-            if (diff <= 0 || diff > 3) {
-                return false;
-            }
-        } else {
-            if (diff >= 0 || diff < -3) {
-                return false;
-            }
-        }
-    }
-    return true;
-}
-
+// Returns index of first element in a pair that causes sequence to be unsafe
 auto unsafeIndex(const std::vector<int>& level) -> std::optional<int> {
     if (level.size() <= 2) {
         return {};
     }
-    if (level[0] == level[1]) {
-        return 0;
-    }
-    bool is_inc = false;
-    if (level[0] < level[1]) {
-        is_inc = true;
-    }
-
+    bool is_inc = level[0] < level[1];
     for (int i = 1; i < level.size(); i++) {
-        auto diff = level[i] - level[i - 1];
-        if (is_inc) {
-            if (diff <= 0 || diff > 3) {
-                return i - 1;
-            }
-        } else {
-            if (diff >= 0 || diff < -3) {
-                return i - 1;
-            }
+        auto diff = is_inc ? level[i] - level[i - 1] : level[i - 1] - level[i];
+        if (diff <= 0 || 3 < diff) {
+            return i - 1;
         }
     }
     return {};
 }
 
+// Checks if a list is safe, relax with possibility to remove element
 auto isDampSafe(const std::vector<int>& level) -> bool {
     auto unsafe_idx = unsafeIndex(level);
     if (unsafe_idx.has_value()) {
         int i = unsafe_idx.value();
+        std::vector<int> level_remove_start{level};
         std::vector<int> level_remove_0{level};
         std::vector<int> level_remove_1{level};
-        std::vector<int> level_remove_start{level};
+        level_remove_start.erase(level_remove_start.begin());
         level_remove_0.erase(level_remove_0.begin() + i);
         level_remove_1.erase(level_remove_1.begin() + i + 1);
-        level_remove_start.erase(level_remove_start.begin());
-        if (!isSafe(level_remove_0) && !isSafe(level_remove_1) && !isSafe(level_remove_start)) {
+        if (unsafeIndex(level_remove_0) && unsafeIndex(level_remove_1) && unsafeIndex(level_remove_start)) {
             return false;
         }
     }
@@ -103,7 +65,7 @@ auto main(int argc, char* argv[]) -> int {
         while (os >> i) {
             level.push_back(i);
         }
-        safe_count += static_cast<int>(isSafe(level));
+        safe_count += static_cast<int>(!unsafeIndex(level).has_value());
         damp_safe_count += static_cast<int>(isDampSafe(level));
         level.clear();
     }
