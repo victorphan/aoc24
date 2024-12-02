@@ -23,3 +23,11 @@ I used an unordered_map for this part to keep a tally of both tables, then multi
 Sum of total differences: 1646452
 Similarity score: 23609874
 ```
+
+# Day 2
+For this I tried to solve it as quick as possible so I went for a straightforward array approach without any clever ranges/folds/lambdas. The part of the puzzle that took me the longest was in part 2 for thinking of the case to remove the first element which may flip the sequence direction.
+```
+.\day2.exe ..\day2\day2.txt
+Total safe levels: 287
+Total damp safe levels: 354
+```

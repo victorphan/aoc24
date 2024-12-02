@@ -65,13 +65,13 @@ auto isDampSafe(const std::vector<int>& level) -> bool {
     auto unsafe_idx = unsafeIndex(level);
     if (unsafe_idx.has_value()) {
         int i = unsafe_idx.value();
-        std::vector<int> new_level_0{level};
-        std::vector<int> new_level_1{level};
-        std::vector<int> new_level_2{level};
-        new_level_0.erase(new_level_0.begin() + i);
-        new_level_1.erase(new_level_1.begin() + i + 1);
-        new_level_2.erase(new_level_2.begin());
-        if (!isSafe(new_level_0) && !isSafe(new_level_1) && !isSafe(new_level_2)) {
+        std::vector<int> level_remove_0{level};
+        std::vector<int> level_remove_1{level};
+        std::vector<int> level_remove_start{level};
+        level_remove_0.erase(level_remove_0.begin() + i);
+        level_remove_1.erase(level_remove_1.begin() + i + 1);
+        level_remove_start.erase(level_remove_start.begin());
+        if (!isSafe(level_remove_0) && !isSafe(level_remove_1) && !isSafe(level_remove_start)) {
             return false;
         }
     }
