@@ -1,31 +1,7 @@
 #include <cassert>
-#include <catch2/catch_test_macros.hpp>
 #include <fstream>
 #include <iostream>
 #include <string>
-#include <vector>
-
-TEST_CASE("test") { REQUIRE(true); }
-
-namespace {
-struct Mul {
-    Mul(int x, int y) : x(x), y(y) {}
-    [[nodiscard]] auto compute() const -> int { return x * y; }
-
-  private:
-    int x = {};
-    int y = {};
-};
-
-std::string mul = "mul()";
-
-auto parse(const std::string& s) -> std::vector<int> {
-    for (auto c : s) {
-        std::cout << c;
-    }
-    return {};
-}
-} // namespace
 
 auto main(int argc, char* argv[]) -> int {
     if (argc != 2) {
