@@ -4,4 +4,4 @@ Diagnostics:
 
 CompileFlags:
   # Add: ['-std:c++latest']
-  CompilationDatabase: "build/Debug/"
+  CompilationDatabase: "build_clang/build/Debug/"
