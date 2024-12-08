@@ -1,4 +1,5 @@
 #include <cassert>
+#include <cstddef>
 #include <fstream>
 #include <iostream>
 #include <optional>
@@ -8,12 +9,12 @@
 
 namespace {
 // Returns index of first element in a pair that causes sequence to be unsafe
-auto unsafeIndex(const std::vector<int>& level) -> std::optional<int> {
+auto unsafeIndex(const std::vector<int>& level) -> std::optional<size_t> {
     if (level.size() <= 2) {
         return {};
     }
     bool is_inc = level[0] < level[1];
-    for (int i = 1; i < level.size(); i++) {
+    for (size_t i = 1; i < level.size(); i++) {
         auto diff = is_inc ? level[i] - level[i - 1] : level[i - 1] - level[i];
         if (diff <= 0 || 3 < diff) {
             return i - 1;
